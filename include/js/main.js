@@ -1,17 +1,10 @@
-var token = {
-  
-}
-
-function getAccessToken(){
-
-}
-
 function test(){
-  $.ajax({
-    url: "http://localhost/PlatformPortal/Buyers/Account/SignIn",
-    data: { signature: authHeader },
-    type: "GET",
-    beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
-    success: function() { console.log('Success!' + authHeader); }
+  var request = $.ajax({
+    url: "./request_data.php?getData&suffix=OEM/4028834c5bf2e452015bf69d208e0008",
+    method: "GET"
+  });
+
+  request.done(function( msg ) {
+    console.log(msg);
   });
 }
