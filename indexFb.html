@@ -1,0 +1,58 @@
+<html>
+<head>
+
+
+<title>Hackathonn tralallaa~
+</title>
+
+
+
+
+
+
+</head>
+<body>
+
+
+<ul id="listPolisi">
+</ul>
+
+
+  <input type="text" id="inputDriverID" placeholder ="ID Driver"/><br>
+  <input type="text" id="inputDriver" placeholder ="Nama Driver"/><br>
+  <input type="text" id="inputDendaType" placeholder ="Tipe Denda"/><br>
+  <input type="text" id="inputDenda" placeholder ="Message Denda"/><br>
+  <input type="submit" id="btnSubmitDenda" value ="sendDenda"/><br>
+
+
+
+
+  <br><br><br>
+
+  <input type="text" id="deleteIni" placeholder ="ID Denda"/><br>
+  <input type="submit" id="btnDeleteDenda" value ="deleteDenda"/><br>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC1LTtAeNEYgj6koBWzO36xQP6WX1XMLB8",
+    authDomain: "hte2017-34fdb.firebaseapp.com",
+    databaseURL: "https://hte2017-34fdb.firebaseio.com",
+    projectId: "hte2017-34fdb",
+    storageBucket: "hte2017-34fdb.appspot.com",
+    messagingSenderId: "306483388158"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="js/policeMessageControl.js"></script>
+
+
+
+
+
+
+</body>
+</html>
