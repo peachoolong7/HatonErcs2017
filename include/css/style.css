@@ -1,8 +1,13 @@
 #mapid {width : 50%;  height: 400px; }
+
+body{
+  background-color : #222;
+}
+
 header{
-  background: #f3f3f3;
-  height: 60px;
   width: 100%;
+  height: 60px;
+  background: #f3f3f3;
   text-align: right;
 }
 
@@ -21,14 +26,14 @@ header ul li{
 }
 
 #dropdown-container{
-  background: white;
+  position: fixed;
+  top: 46px;
+  right: calc((100% - 1000px)/2);z-index: 10;
   width: 300px;
   height: 150px;
-  position: fixed;
-  right: calc((100% - 1000px)/2);
-  top: 46px;
   border: solid 1px #dadada;
   border-radius: 5px 0px 5px 5px;
+  background: white;
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.17);
   text-align: left;
   /*opacity: 1;*/
@@ -56,20 +61,20 @@ header ul li{
 }
 
 #dropdown-container button{
-  width: 100%;
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 0;
+  width: 100%;
 }
 
 #dropdown-container #dropdown-profile{
-  background: url('../img/58.jpg');
-  height: calc(100% - 35px);
-  padding-left: 38%;
   display: inline-block;
+  padding-left: 38%;
+  height: calc(100% - 35px);
+  border-radius: 5px 0 0 0;
+  background: url('../img/58.jpg');
   background-position: center center;
   background-size: cover;
-  border-radius: 5px 0 0 0;
 }
 
 #dropdown-description ul li{
@@ -78,18 +83,100 @@ header ul li{
 }
 
 #dropdown-description ul{
+  margin: 0;
   padding: 10px 0 0 10px;
-  margin: 0;
 }
 
 #dropdown-description {
-  width: 184px;
-  float: right;
-  top: 0;
   position: relative;
+  top: 0;
+  float: right;
+  width: 184px;
 }
 
 #map-container{
+  z-index: 2;
   /*width: 400px;*/
   height: 400px;
+}
+
+
+
+
+/*Asdaf*/
+
+.containerBox{
+  display :flex;
+  flex-direction : row;
+  width : 100%;
+  height : auto;
+  background-color : blue;
+
+  justify-content:space-around;
+
+}
+
+.wrapper960{
+  display :flex;
+  flex-direction : column;
+  width : 1;
+  height : auto;
+  background-color : transparent;
+
+  justify-content:space-between;
+}
+
+
+.wrapperFlex{
+  display :flex;
+  flex-direction: row;
+  margin-top : 50px;
+
+  justify-content: space-between;
+}
+
+.tabTitle{
+  top : 15px;
+    padding : 25px;
+  letter-spacing: 2px;
+  font-weight : 600;
+  font-size : 24px;
+
+}
+.DriverBox{
+  width : 350px;
+  height : 1000px;
+  border-radius : 24px;
+  background-color : white;
+}
+
+
+.listDriver{
+  padding-left : 0px;
+}
+.listDriverName{
+  font-weight : 500;
+  font-size : 22px;
+}
+.listDriver li{
+  padding : 25px;
+  padding-top : 12px;
+  padding-bottom : 12px;
+  width : 100%;
+  background-color : #efefef;
+  list-style : none;
+  cursor :pointer ;
+  transition : all 0.2s ease-out;
+}
+
+.listDriver li:nth-child(odd){
+background-color : #dfdfdf;
+
+}
+.listDriver li:nth-child(even){
+background-color : #efefef;
+
+}
+.listDriver li:hover{
+  background-color : orange;
 }
