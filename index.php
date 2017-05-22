@@ -74,46 +74,17 @@
       <div class="DriverBox"><br>
           <span class="tabTitle" >Driver List</span><br>
           <ul class="listDriver" id ="ListDriver">
-            <li>
-              <span class="listDriverName">Achmad Soebarjo</span><br>
-              <span>VIN3910124</span> - <span>nama Mobil</span>
-            </li>
-            <li>
-              <span class="listDriverName">Achmad Soebarjo</span><br>
-              <span>VIN3910124</span> - <span>nama Mobil</span>
-            </li>
           </ul>
       </div>
       <div class="carBox"><br>
           <span class="tabTitle">Car List</span><br>
           <ul class="listDriver" id ="ListCar">
-            <li dataf-valueAddress="Address"
-            data-valueContact="Address"
-            data-valuePhone="Address"
-            data-valueEmail="Address"
-            data-valueLocation="Address"
-            data-valueCarType="Address"
-            data-valueCarYear="Address">
-              <span class="listDriverName">VIN234AS234</span><br>
-              <span><span class="listDriverSpeed">60</span> KM/S</span> - <span>nama Mobil</span>
-            </li>
-            <li>
-              <span class="listDriverName">VIN234AS234</span><br>
-              <span><span class="listDriverSpeed">60</span> KM/S</span> - <span>nama Mobil</span>
-            </li>
           </ul>
       </div>
       <div class="carBox"><br>
           <span class="tabTitle">Occurence</span><br>
           <ul class="listDriver"id ="ListOccurence">
-            <li>
-              <span class="listDriverName">Accident</span><br>
-              <span><span class="listLatLong">LatLong</span></span>
-            </li>
-              <li>
-                <span class="listDriverName">Accident</span><br>
-                <span><span class="listLatLong">LatLong</span></span>
-              </li>
+
           </ul>
       </div>
     </div>

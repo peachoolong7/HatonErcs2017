@@ -89,21 +89,29 @@ setTimeout(function(){
       continue event_loop;
 
       getEvents(car_vim_list[i],function(data){
+        return;
         // tmp = data[0].VehicleSpecification.Event.tag;
-        var tmp = data[0].VehicleSpecification.Event.tag;
-        console.log(tmp[Object.getOwnPropertyNames(tmp)[0]]);
+        var event_trip = data[0].VehicleSpecification.Event.metaInfo[Object.getOwnPropertyNames(data[0].VehicleSpecification.Event.metaInfo)[0]];
+        console.log(data[0].VehicleSpecification.Event.metaInfo[Object.getOwnPropertyNames(data[0].VehicleSpecification.Event.metaInfo)[0]]);
+        var event_tag = data[0].VehicleSpecification.Event.tag[Object.getOwnPropertyNames(data[0].VehicleSpecification.Event.tag)[0]];
+        // console.log(tmp[Object.getOwnPropertyNames(tmp)[0]]);
+
+        // if(event_tag === 'Accident')
       });
     }
   },2500);
-}, 10000);
+}, 5000);
 
 getCarList(function(data){
   // console.log(data.data.list);
   // return;
   for(var i = 0; i < data.data.list.length; i++){
+    appendDriver(data.data.list[i].enterprises[0].contacts[0].name, data.data.list[i].VIN, data.data.list[i].model.brand);
+    appendCarList(data.data.list[i].enterprises[0].address, data.data.list[i].enterprises[0].contacts[0].name, data.data.list[i].enterprises[0].contacts[0].phoneNumber, data.data.list[i].enterprises[0].contacts[0].email, data.data.list[i].enterprises[0].location, data.data.list[i].model.brand, data.data.list[i].model.year, data.data.list[i].VIN, data.data.list[i].VRN);
     car_vim_list.push(data.data.list[i].VIN);
+
+    // Fetch Telematics data
     fetchCarTelematics(data.data.list[i].VIN, 'Basic', function(car_data, vin){
-      // console.log(car_data);
       if(car_data != '[]' && car_data != ''){
         var info = JSON.parse(car_data);
         if(info[0] && typeof info[0] != undefined){
@@ -121,6 +129,7 @@ getCarList(function(data){
         }
       }
     });
+
   }
 
   // console.log(data.Resources.length);
@@ -329,7 +338,9 @@ function appendDriver(xDriverName,xCarID,xCarType){
 
 
 }
-appendOccurence("Accident","1000,100");
-appendDriver("xDriverName","xCarID","xCarType");
+// appendDriver("xDriverName","xCarID","xCarType");
 
- appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID","1000");
+ // appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID","1000");
+
+/* Accident place holder because accident isnt simulated. */
+appendOccurence("Accident","-6.168729, 106.788072");
