@@ -10,11 +10,6 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: 'pk.eyJ1IjoiYnJhbmRuZGF5IiwiYSI6ImNqMnl3ZGRlbzAwMjUyd3J4dDM2amExb3EifQ.I0hrewTHn193W40EUUJ3hQ'
 }).addTo(mymap);
 
-/* Get the live drivers */
-setInterval(function(){
-
-},500);
-
 function toggleProfileDropdown(){
   var dd = document.getElementById('dropdown-container');
 
@@ -27,22 +22,65 @@ function toggleProfileDropdown(){
 var car_vim_list = [];
 var marker = [];
 
+/* Get the live drivers */
+setTimeout(function(){
+  setInterval(function(){
+    for(var i = 0; i < marker.length; i++){
+      mymap.removeLayer(marker[i]);
+    }
+
+    for(var i = 0; i < car_vim_list.length; i++){
+      fetchCarTelematics(car_vim_list[i], 'Basic', function(car_data, vin){
+        console.log("Got data");
+        if(car_data != '[]' && car_data != ''){
+          var info = JSON.parse(car_data);
+          if(info[0] && typeof info[0] != undefined){
+            // info = Object.keys(info[0].VehicleSpecification.Basic.position);
+            Object.getOwnPropertyNames(info[0].VehicleSpecification.Basic.position).forEach(
+              function (val, idx, array) {
+                info = info[0].VehicleSpecification.Basic.position[val];
+
+                var blip = null;
+
+                for(var i = 0; i < marker.length; i++){
+                  if(marker[i].vin == vin){
+                    blip = marker[i].blip;
+                    break;
+                  }
+                }
+
+                blip.setLatLng([info.latitude, info.longitude]);
+                // var blip = L.marker([info.latitude, info.longitude]);
+              }
+            );
+          }
+        }
+      });
+    }
+    console.log("Update...");
+  },5000);
+}, 10000);
+
 getCarList(function(data){
-  for(var i = 0; i < data.Resources.length; i++){
-    car_vim_list.push(data.Resources[i].VIN);
-    fetchCarTelematics(data.Resources[i].VIN, 'Basic', function(car_data){
+  // console.log(data.data.list);
+  // return;
+  for(var i = 0; i < data.data.list.length; i++){
+    car_vim_list.push(data.data.list[i].VIN);
+    fetchCarTelematics(data.data.list[i].VIN, 'Basic', function(car_data, vin){
+      // console.log(car_data);
       if(car_data != '[]' && car_data != ''){
         var info = JSON.parse(car_data);
         if(info[0] && typeof info[0] != undefined){
           // info = Object.keys(info[0].VehicleSpecification.Basic.position);
           Object.getOwnPropertyNames(info[0].VehicleSpecification.Basic.position).forEach(
             function (val, idx, array) {
+              console.log(info[0].VehicleSpecification.Basic);
               info = info[0].VehicleSpecification.Basic.position[val];
               var blip = L.marker([info.latitude, info.longitude]);
               // console.log(info.latitude, info.longitude);
               // blip.setLatLng([51.5+(Math.floor((Math.random() * 100) + 1)/100), -0.09+(Math.floor((Math.random() * 100) + 1)/100)]);
               blip.addTo(mymap);
-              marker.push(blip);
+              marker.push({'vin':vin, 'blip':blip});
             }
           );
         }
@@ -82,11 +120,10 @@ function getCar(vin){
 }
 
 function getCarList(callback){
-  var suffix = 'autovehicle/v1/vehicles/.search';
-  var data_ = '{"attributes":["VIN","VRN"],\
-  "count":50,\
-  "schemas":["urn:ietf:params:scim:api:messages:2.0:SearchRequest"],\
-  "sortBy":"VIN"}';
+  var suffix = 'fms-core/OEM/4028834c5bf2e452015bf69d208e0008/Vehicles';
+  var data_ = '{\
+   "pageSize": "",\
+   "pageIndex": ""}';
   var acc_enc_ = '*/*';
 
   var request = $.ajax({
@@ -98,6 +135,8 @@ function getCarList(callback){
   });
 
   request.done(function( msg ) {
+    // console.log(msg);
+    // return;
     if(typeof callback == 'function')
     callback(JSON.parse(msg));
   });
@@ -117,7 +156,7 @@ function fetchCarTelematics(vin, sensorSpec, callback){
 
   request.done(function( msg ) {
     if(typeof callback == 'function')
-    callback(msg);
+    callback(msg, vin);
     // callback(JSON.parse(msg));
 
   });
