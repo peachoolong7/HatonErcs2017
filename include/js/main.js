@@ -121,8 +121,26 @@ getCarList(function(data){
               // console.log(info[0].VehicleSpecification.Basic);
               info = info[0].VehicleSpecification.Basic.position[val];
               var blip = L.marker([info.latitude, info.longitude], {icon: carIcon, rotationAngle: info.heading});
+
               blip.addTo(mymap);
+              $(blip).attr("dataf-vinvinvin",vin)
+              blip.on("click", function(){
+                var bilip = this;
+                $("#ListCar li").each(function(i,e){
+                        if($(e).attr("dataf-valueCarID") ==vin){
+                          $(e).click();
+                        }
+                    /*
+                  if($(e).attr("dataf-valueCarID").equals(vin)){
+                    alert("found");
+                    $(this).click();
+
+                  }*/
+
+                });
               marker.push({'vin':vin, 'blip':blip, 'data_count': data_count});
+              marker[marker.length];
+              });
               data_count++;
             }
           );

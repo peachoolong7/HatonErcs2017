@@ -49,7 +49,7 @@
       </div>
     </div>
     <header>
-      <span class="siteHeaderTitle"><span class="extraBold">Digital</span> <i>TrafficPolice</i></span>
+      <span class="siteHeaderTitle"><IMG SRC="include/img/TESICON.png" width ="40px" style="float : left; margin-right : 4px;"><span class="extraBold">GRIFFY</span><i>TRAFFICPOLICE</i></span>
       <ul class="section-content">
         <li><button disabled="" class="no-endcap-right">Marvin Crist</button><button class="no-endcap-left" onclick="toggleProfileDropdown()"><span id="dropdown-arrow">&#8227;</span></button></li>
       </ul>
