@@ -1,3 +1,7 @@
+
+var namaPolisix = "Hack Police";
+var telpPolisix = "0812348234";
+
 var mymap = L.map('map-container',{
   center: L.latLng(-6.1939007,106.8215267),
   zoom: 17
@@ -14,6 +18,10 @@ var carIcon = L.icon({
     iconAnchor:   [10, 22.368421053], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
+
+
+  $(".modalBackground").css("display","none");
+
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -214,3 +222,92 @@ function fetchCarTelematics(vin, sensorSpec, callback){
 
   });
 }
+
+function kirimPeringatan(driverid=0, nama, denda,dendamsg,telpPolisi,namaPolisi){
+var de = new Date();
+var month = de.getMonth()+1;
+var day = de.getDate();
+var hour = de.getHours();
+var minute = de.getMinutes();
+var datestring = de.getFullYear() + '/' +
+    ((''+month).length<2 ? '0' : '') + month + '/' +
+    ((''+day).length<2 ? '0' : '') + day + " " +hour+ ":" + minute ;
+
+
+
+
+var bundel={
+  namaDriver:nama,
+  idDriver:driverid,
+  dendaDriver:denda,
+  dendaMessage:dendamsg,
+  telpPolisi:telpPolisi,
+  polisiNama:namaPolisi,
+  time:datestring,
+  status:'A'};
+
+firebase.database().ref('/drivers/'+bundel.idDriver ).push(bundel);
+};
+
+$("#modal1Cancel").click(function(){
+  $(".modalBackground").css("display","none");
+});
+$("#modal1Warning").click(function(){
+
+    var namaD = $("#mtbContactName").html();
+      var driverID = $("#mtbVhclID").html();
+  var dendaType = $("#inputDendaType").val();
+  var dendaMsg = $("#inputDenda").val();
+  driverID ="2";
+  kirimPeringatan(driverID,namaD, dendaType,dendaMsg,telpPolisix, namaPolisix);
+    $(".modalBackground").css("display","none");
+
+});
+function appendCarList(xAddress,xContact,xPhone,XEmail,xLocation,xCarType,xCarYear,xCarID){
+
+  var tes=`
+    <li dataf-valueAddress="${xAddress}"
+    dataf-valueContact="${xContact}"
+    dataf-valuePhone="${xPhone}"
+    dataf-valueEmail="${XEmail}"
+    dataf-valueLocation="${xLocation}"
+    dataf-valueCarType="${xCarType}"
+    dataf-valueCarYear="${xCarYear}"
+    dataf-valueCarID="${xCarID}">
+      <span class="listDriverName">VIN234AS234 YEA</span><br>
+      <span><span class="listDriverSpeed">60</span> KM/S</span> - <span>nama Mobil</span>
+    </li>`;
+    $("#ListCar").append(tes);
+
+    $("#ListCar li").last().click(function(){
+        var carAddress= $(this).attr("dataf-valueAddress");
+      var carContact= $(this).attr("dataf-valueContact");
+      var carPhone= $(this).attr("dataf-valuePhone");
+      var carEmail= $(this).attr("dataf-valueEmail");
+      var carLocation= $(this).attr("dataf-valueLocation");
+      var carType= $(this).attr("dataf-valueCarType");
+      var carYear= $(this).attr("dataf-valueCarYear");
+      var carID= $(this).attr("dataf-valueCarID");
+      console.log(carType);
+
+      $("#mtbAddress").html(carAddress);
+      $("#mtbContactName").html(carContact);
+      $("#mtbPhone").html(carPhone);
+      $("#mtbEmail").html(carEmail);
+      $("#mtbLocation").html(carLocation);
+      $("#mtbCarType").html(carType);
+      $("#mtbVhclID").html(carID);
+
+      $(".modalBackground").css("display","block");
+
+
+    });
+
+
+}
+
+ appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
+  appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
+   appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
+    appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
+     appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
