@@ -38,7 +38,7 @@ function dataFetch($suffix){
   $curl = curl_init();
 
   curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://52.69.117.50:27170/occhub/proxy/".$suffix,
+    CURLOPT_URL => "http://52.69.117.50:27170/occhub/proxy/".urldecode($suffix),
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -48,11 +48,10 @@ function dataFetch($suffix){
       "Authorization: Bearer ".$_SESSION['toke']['token'],
       'Content-Type: application/scim+json',
       'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
-      'Accept: */*',
+      'Accept: '. $_POST['acc_enc'],
       'Connection: keep-alive',
       'Cache-Control: no-cache',
       'DNT: 1',
-      'Accept-Encoding: gzip, deflate',
       'Accept-Language: en-US,en;q=0.8',
       'Content-Length: '.strlen($_POST['data'])
     ),
@@ -62,7 +61,7 @@ function dataFetch($suffix){
   $err = curl_error($curl);
 
   curl_close($curl);
-
+  // var_dump($response);
   die($response);
 }
 ?>
