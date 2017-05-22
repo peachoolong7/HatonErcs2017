@@ -2,6 +2,18 @@ var mymap = L.map('map-container',{
   center: L.latLng(-6.1939007,106.8215267),
   zoom: 17
 });
+var car_vim_list = [];
+var marker = [];
+var data_count = 0;
+var data_loop_count = 0;
+
+var carIcon = L.icon({
+    iconUrl: 'include/img/798.png',
+
+    iconSize:     [20, 44.736842106], // size of the icon
+    iconAnchor:   [10, 22.368421053], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -19,9 +31,6 @@ function toggleProfileDropdown(){
     dd.classList.add('hidden');
 }
 
-var car_vim_list = [];
-var marker = [];
-
 /* Get the live drivers */
 setTimeout(function(){
   setInterval(function(){
@@ -29,13 +38,15 @@ setTimeout(function(){
       mymap.removeLayer(marker[i]);
     }
 
+    outer_loop:
     for(var i = 0; i < car_vim_list.length; i++){
+      if(i % 2 == data_loop_count)
+      continue outer_loop;
+
       fetchCarTelematics(car_vim_list[i], 'Basic', function(car_data, vin){
-        console.log("Got data");
         if(car_data != '[]' && car_data != ''){
           var info = JSON.parse(car_data);
           if(info[0] && typeof info[0] != undefined){
-            // info = Object.keys(info[0].VehicleSpecification.Basic.position);
             Object.getOwnPropertyNames(info[0].VehicleSpecification.Basic.position).forEach(
               function (val, idx, array) {
                 info = info[0].VehicleSpecification.Basic.position[val];
@@ -44,21 +55,38 @@ setTimeout(function(){
 
                 for(var i = 0; i < marker.length; i++){
                   if(marker[i].vin == vin){
-                    blip = marker[i].blip;
+                    blip = marker[i];
                     break;
                   }
                 }
 
-                blip.setLatLng([info.latitude, info.longitude]);
-                // var blip = L.marker([info.latitude, info.longitude]);
+                blip = marker[i].blip;
+
+                blip.setLatLng([info.latitude, info.longitude], {rotationAngle: info.heading});
               }
             );
           }
         }
       });
     }
-    console.log("Update...");
+
+    data_loop_count = Math.abs(data_loop_count - 1);
+    console.log("Update... ");
   },5000);
+
+  setInterval(function(){
+    event_loop:
+    for(var i = 0; i < car_vim_list.length; i++){
+      if(i % 2 == data_loop_count)
+      continue event_loop;
+
+      getEvents(car_vim_list[i],function(data){
+        // tmp = data[0].VehicleSpecification.Event.tag;
+        var tmp = data[0].VehicleSpecification.Event.tag;
+        console.log(tmp[Object.getOwnPropertyNames(tmp)[0]]);
+      });
+    }
+  },2500);
 }, 10000);
 
 getCarList(function(data){
@@ -74,13 +102,12 @@ getCarList(function(data){
           // info = Object.keys(info[0].VehicleSpecification.Basic.position);
           Object.getOwnPropertyNames(info[0].VehicleSpecification.Basic.position).forEach(
             function (val, idx, array) {
-              console.log(info[0].VehicleSpecification.Basic);
+              // console.log(info[0].VehicleSpecification.Basic);
               info = info[0].VehicleSpecification.Basic.position[val];
-              var blip = L.marker([info.latitude, info.longitude]);
-              // console.log(info.latitude, info.longitude);
-              // blip.setLatLng([51.5+(Math.floor((Math.random() * 100) + 1)/100), -0.09+(Math.floor((Math.random() * 100) + 1)/100)]);
+              var blip = L.marker([info.latitude, info.longitude], {icon: carIcon, rotationAngle: info.heading});
               blip.addTo(mymap);
-              marker.push({'vin':vin, 'blip':blip});
+              marker.push({'vin':vin, 'blip':blip, 'data_count': data_count});
+              data_count++;
             }
           );
         }
@@ -116,6 +143,32 @@ function getCar(vin){
 
   request.done(function( msg ) {
     console.log(JSON.parse(msg));
+  });
+}
+
+function getEvents(vin, callback){
+  var suffix = 'm2m/trusted/data?dgg='+ vin +'&sensorSpec=Event&latestNCount=1';
+  var acc_enc_ = 'application/vnd.ericsson.simple.output.fmsdev+json;version=1.0';
+
+  var request = $.ajax({
+    url: "./request_data.php?getData&suffix="+encodeURIComponent(suffix),
+    data: { data : '',
+            method : 'GET',
+            acc_enc: acc_enc_},
+    method: "POST"
+  });
+
+  request.done(function( msg ) {
+    // console.log(msg);
+    // return;
+    if(typeof callback == 'function')
+    var obj = null;
+    try {
+      obj = JSON.parse(msg);
+    } catch (e) {
+      return;
+    }
+    callback(obj);
   });
 }
 
