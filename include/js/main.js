@@ -263,7 +263,7 @@ $("#modal1Warning").click(function(){
     $(".modalBackground").css("display","none");
 
 });
-function appendCarList(xAddress,xContact,xPhone,XEmail,xLocation,xCarType,xCarYear,xCarID){
+function appendCarList(xAddress,xContact,xPhone,XEmail,xLocation,xCarType,xCarYear,xCarID,xCarSpeed){
 
   var tes=`
     <li dataf-valueAddress="${xAddress}"
@@ -274,8 +274,8 @@ function appendCarList(xAddress,xContact,xPhone,XEmail,xLocation,xCarType,xCarYe
     dataf-valueCarType="${xCarType}"
     dataf-valueCarYear="${xCarYear}"
     dataf-valueCarID="${xCarID}">
-      <span class="listDriverName">VIN234AS234 YEA</span><br>
-      <span><span class="listDriverSpeed">60</span> KM/S</span> - <span>nama Mobil</span>
+      <span class="listDriverName">${xCarID}</span><br>
+      <span><span class="listDriverSpeed">${xCarSpeed}</span> KM/S</span> - <span>${xCarType}</span>
     </li>`;
     $("#ListCar").append(tes);
 
@@ -306,8 +306,30 @@ function appendCarList(xAddress,xContact,xPhone,XEmail,xLocation,xCarType,xCarYe
 
 }
 
- appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
-  appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
-   appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
-    appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
-     appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID");
+
+function appendOccurence(xEventType,xLatLong){
+
+  var tes=`
+    <li>
+      <span class="listDriverName">${xEventType}</span><br>
+      <span><span class="listLatLong">${xLatLong}</span></span>
+    </li>`;
+    $("#ListOccurence").append(tes);
+
+
+}
+function appendDriver(xDriverName,xCarID,xCarType){
+
+  var tes=`
+  <li>
+    <span class="listDriverName">${xDriverName}</span><br>
+    <span>${xCarID}</span> - <span>${xCarType}</span>
+  </li>`;
+    $("#ListDriver").append(tes);
+
+
+}
+appendOccurence("Accident","1000,100");
+appendDriver("xDriverName","xCarID","xCarType");
+
+ appendCarList("xAddress","xContact","xPhone","XEmail","xLocation","xCarType","xCarYear","xCarID","1000");
