@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$_SESSION['toke']['token'] = 'ul5EZhayq6VV4ipGLB9Z';
+$_SESSION['toke']['token'] = '2fiJnFfhOACPIWDQG8xo';
 $_SESSION['toke']['exp'] = 1495540800;
 
 if(isset($_GET['getData'])){
@@ -33,16 +33,28 @@ if(isset($_GET['getData'])){
 // }
 
 function dataFetch($suffix){
+  // var_dump($_REQUEST);
+  // die();
   $curl = curl_init();
-  
+
   curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://52.69.117.50:27170/occhub/proxy/fms-core/".$suffix,
+    CURLOPT_URL => "http://52.69.117.50:27170/occhub/proxy/".$suffix,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_CUSTOMREQUEST => $_POST['method'],
+    CURLOPT_POSTFIELDS => $_POST['data'],
     CURLOPT_HTTPHEADER => array(
       "Authorization: Bearer ".$_SESSION['toke']['token'],
+      'Content-Type: application/scim+json',
+      'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+      'Accept: */*',
+      'Connection: keep-alive',
+      'Cache-Control: no-cache',
+      'DNT: 1',
+      'Accept-Encoding: gzip, deflate',
+      'Accept-Language: en-US,en;q=0.8',
+      'Content-Length: '.strlen($_POST['data'])
     ),
   ));
 

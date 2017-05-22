@@ -1,1 +1,95 @@
 #mapid {width : 50%;  height: 400px; }
+header{
+  background: #f3f3f3;
+  height: 60px;
+  width: 100%;
+  text-align: right;
+}
+
+header ul{
+  padding-top: 12.5px;
+  /*float: right;*/
+}
+
+header ul li{
+  display: inline-block;
+}
+
+#dropdown-arrow{
+  display: block;
+  transform: scale(2) translateX(1.5px) rotate(90deg);
+}
+
+#dropdown-container{
+  background: white;
+  width: 300px;
+  height: 150px;
+  position: fixed;
+  right: calc((100% - 1000px)/2);
+  top: 46px;
+  border: solid 1px #dadada;
+  border-radius: 5px 0px 5px 5px;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.17);
+  text-align: left;
+  /*opacity: 1;*/
+
+  /*transition: all 0.5s;*/
+}
+
+@media (max-width: 1000px) and (min-width: 500px) {
+  #dropdown-container{
+    right: 5%;
+  }
+}
+
+@media (max-width: 499px){
+  #dropdown-container{
+    right: 2%;
+  }
+}
+
+#dropdown-container.hidden{
+  display: none;
+  /*opacity: 0;*/
+
+  /*transition: all 0.5s;*/
+}
+
+#dropdown-container button{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#dropdown-container #dropdown-profile{
+  background: url('../img/58.jpg');
+  height: calc(100% - 35px);
+  padding-left: 38%;
+  display: inline-block;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 5px 0 0 0;
+}
+
+#dropdown-description ul li{
+  display: list-item;
+  list-style: none;
+}
+
+#dropdown-description ul{
+  padding: 10px 0 0 10px;
+  margin: 0;
+}
+
+#dropdown-description {
+  width: 184px;
+  float: right;
+  top: 0;
+  position: relative;
+}
+
+#map-container{
+  /*width: 400px;*/
+  height: 400px;
+}
