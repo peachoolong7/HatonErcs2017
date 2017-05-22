@@ -18,48 +18,48 @@
   <script>
     var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
-      marker = [];
+    marker = [];
     for(i=0; i<1000; i++){
 
-       marker.push( L.marker([51.5, -0.09+(i/1000)]).addTo(mymap));
-       marker[i].bindPopup("i.toString()");
+      marker.push( L.marker([51.5, -0.09+(i/1000)]).addTo(mymap));
+      marker[i].bindPopup("i.toString()");
     }
 
     setInterval(function(){
-    for(i=0; i<1000; i++){
+      for(i=0; i<1000; i++){
 
-       marker[i].setLatLng([51.5+(Math.floor((Math.random() * 100) + 1)/100), -0.09+(Math.floor((Math.random() * 100) + 1)/100)]);
+        marker[i].setLatLng([51.5+(Math.floor((Math.random() * 100) + 1)/100), -0.09+(Math.floor((Math.random() * 100) + 1)/100)]);
         marker[i].off( "click" );
-       marker[i].on("click", function(){
-         alert(this._popup.getContent());
-       });
-       marker[i]._popup.setContent("#popup : " +i);
-    }
+        marker[i].on("click", function(){
+          alert(this._popup.getContent());
+        });
+        marker[i]._popup.setContent("#popup : " +i);
+      }
 
-  }, 3000);
+    }, 3000);
 
 
     var circle = L.circle([51.508, -0.11], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 500
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 500
     }).addTo(mymap);
 
     var polygon = L.polygon([
-        [51.509, -0.08],
-        [51.503, -0.06],
-        [51.51, -0.047]
+      [51.509, -0.08],
+      [51.503, -0.06],
+      [51.51, -0.047]
     ]).addTo(mymap);
 
 
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: 'pk.eyJ1IjoiYnJhbmRuZGF5IiwiYSI6ImNqMnl3ZGRlbzAwMjUyd3J4dDM2amExb3EifQ.I0hrewTHn193W40EUUJ3hQ'
-}).addTo(mymap);
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: 'pk.eyJ1IjoiYnJhbmRuZGF5IiwiYSI6ImNqMnl3ZGRlbzAwMjUyd3J4dDM2amExb3EifQ.I0hrewTHn193W40EUUJ3hQ'
+    }).addTo(mymap);
 
   </script>
 </body>
